@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LimpiExpert - Productos de Limpieza Automotriz e Industrial</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2c7744;
+      --secondary-color: #4caf50;
+      --accent-color: #ff9800;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      color: #212529;
+      overflow-x: hidden;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background-color: white !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary-color) !important;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      margin: 0 0.5rem;
+      position: relative;
+      color: var(--dark-color) !important;
+    }
+
+    .nav-link:hover {
+      color: var(--secondary-color) !important;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--secondary-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: var(--accent-color);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      padding: 5rem 0;
+      margin-bottom: 3rem;
+    }
+
+    .hero-title {
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Flip Card Styles */
+    .flip-card {
+      height: 350px;
+      perspective: 1000px;
+      margin-bottom: 2rem;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .flip-card-front {
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .flip-card-front::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .flip-card-front h3 {
+      position: relative;
+      z-index: 2;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .flip-card-front i {
+      font-size: 3rem;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 1rem;
+    }
+
+    .flip-card-back {
+      background-color: white;
+      transform: rotateY(180deg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .flip-card-back h3 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .flip-card-back p {
+      color: var(--dark-color);
+      flex-grow: 1;
+    }
+
+    .flip-card-back .btn {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .flip-card-back .btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    /* Carousel Styles */
+    .carousel-container {
+      margin: 3rem 0;
+      padding: 0 2rem;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+      padding: 20px 0;
+      margin-bottom: 20px;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      padding: 0 15px;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .carousel-control {
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      transition: all 0.3s ease;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-control.prev-btn {
+      left: 15px;
+    }
+
+    .carousel-control.next-btn {
+      right: 15px;
+    }
+
+    .carousel-control:hover {
+      background-color: var(--secondary-color);
+      transform: scale(1.1) translateY(-50%);
+    }
+
+    .carousel-control i {
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #ccc;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .indicator.active {
+      background-color: var(--primary-color);
+      transform: scale(1.2);
+    }
+
+    /* Stats Section */
+    .stats-section {
+      background-color: var(--light-color);
+      padding: 3rem 0;
+      margin: 3rem 0;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 2rem;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-text {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 3rem 0 1.5rem;
+    }
+
+    .footer-title {
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background-color: var(--accent-color);
+    }
+
+    .footer-link {
+      color: #d1e7dd;
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+      display: block;
+      transition: all 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: white;
+      padding-left: 5px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-icon:hover {
+      background-color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1.5rem;
+      margin-top: 2rem;
+      text-align: center;
+      color: #d1e7dd;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .delay-1 {
+      animation-delay: 0.1s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.2s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.3s;
+    }
+
+    .delay-4 {
+      animation-delay: 0.4s;
+    }
+
+    .delay-5 {
+      animation-delay: 0.5s;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+
+      .navbar-nav {
+        text-align: center;
+      }
+
+      .flip-card {
+        height: 300px;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .stat-text {
+        font-size: 1rem;
+      }
+
+      .carousel-slide img {
+        height: 250px;
+      }
+
+      .carousel-control {
+        width: 40px;
+        height: 40px;
+        left: 10px;
+      }
+
+      .carousel-control.prev-btn {
+        left: 10px;
+      }
+
+      .carousel-control.next-btn {
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <i class="bi bi-wrench-adjustable-circle-fill me-2" style="color: var(--primary-color); font-size: 1.8rem;"></i>
+        LimpiExpert
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="productos.html">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#servicios">Servicios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contacto">Contacto</a>
+          </li>
+        </ul>
+        <div class="ms-lg-4 mt-3 mt-lg-0">
+          <div class="cart-icon" data-bs-toggle="modal" data-bs-target="#cartModal">
+            <i class="bi bi-cart2 fs-4" style="color: var(--primary-color);"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 animate-fadeIn">
+            <h1 class="hero-title">Limpieza Profesional para Autos e Industria</h1>
+            <p class="hero-subtitle">Productos de alta calidad para mantener tus vehículos y espacios industriales
+              impecables</p>
+            <a href="#productos" class="btn btn-primary">Ver Productos</a>
+          </div>
+          <div class="col-lg-6 text-center animate-fadeIn delay-1">
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/041/643/148/non_2x/ai-generated-cleaning-service-bucket-with-sponges-chemicals-bottle-free-png.png"
+              alt="Limpieza Automotriz" class="img-fluid rounded shadow">
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+ <!-- Image Carousel -->
+      <div class="carousel-container">
+        <div class="row">
+          <div class="col-12">
+            <h3 class="text-center mb-4">Galería de Imágenes</h3>
+
+            <div class="carousel-wrapper">
+              <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide">
+                  <img
+                    src="https://content.st1.fi/sites/default/files/2023-06/pesukadun_ohje_kaytto.jpg"
+                    alt="Producto 1">
+                </div>
+                <div class="carousel-slide">
+                  <img
+                    src="https://www.shell.fi/motorists/inside-our-stations/shell-output/_jcr_content/root/main/section/page-header.shellimg.jpeg/1732713828226/car-wash.jpeg?imwidth=1118&impolicy=amidala-image&imdensity=1"
+                    alt="Producto 2">
+                </div>
+                <div class="carousel-slide">
+                  <img
+                    src="https://content.st1.fi/sites/default/files/2023-06/pesukadun_ohje_kaytto.jpg"
+                    alt="Producto 3">
+                </div>
+                <div class="carousel-slide">
+                  <img
+                    src="https://cobblestone.com/wp-content/uploads/2023/02/20201007-_MG_2145@2x-2100x584.jpg"
+                    alt="Producto 4">
+                </div>
+                <div class="carousel-slide">
+                  <img
+                    src="https://www.shell.fi/motorists/inside-our-stations/shell-output/_jcr_content/root/main/section/page-header.shellimg.jpeg/1732713828226/car-wash.jpeg?imwidth=1118&impolicy=amidala-image&imdensity=1"
+                    alt="Producto 5">
+                </div>
+                <div class="carousel-slide">
+                  <img
+                    src="https://www.goldengategas.com/wp-content/uploads/2021/11/Coupons_header.jpg"
+                    alt="Producto 6">
+                </div>
+              </div>
+
+              <!-- Navigation Buttons -->
+              <button class="carousel-control prev-btn" id="prevBtn">
+                <i class="bi bi-arrow-left"></i>
+              </button>
+              <button class="carousel-control next-btn" id="nextBtn">
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Indicators Below Carousel -->
+            <div class="carousel-indicators" id="carouselIndicators">
+              <div class="indicator active" data-slide="0"></div>
+              <div class="indicator" data-slide="1"></div>
+              <div class="indicator" data-slide="2"></div>
+              <div class="indicator" data-slide="3"></div>
+              <div class="indicator" data-slide="4"></div>
+              <div class="indicator" data-slide="5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    <!-- Main Content Section -->
+    <section class="container py-5">
+      <div class="row">
+        <div class="col-12 text-center mb-5">
+          <h2 class="display-6 fw-bold">Nuestros Productos</h2>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <!-- Flip Card 1 -->
+        <div class="col-md-5 col-lg-5 mb-4">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front"
+                style="background-image: url('https://images.unsplash.com/photo-1580258156026-31f3e8b017d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80');">
+                <i class="bi bi-car-front"></i>
+                <h3>Productos de limpieza automotriz</h3>
+              </div>
+              <div class="flip-card-back">
+                <h3>Productos de limpieza automotriz</h3>
+                <p>Nuestros productos están diseñados específicamente para vehículos, ofreciendo resultados
+                  excepcionales en la limpieza de exteriores e interiores. Utilizamos ingredientes de alta calidad que
+                  no dañan los acabados del vehículo.</p>
+                <a href="#" class="btn">Ver más</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flip Card 2 -->
+        <div class="col-md-5 col-lg-5 mb-4">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front"
+                style="background-image: url('https://images.unsplash.com/photo-1581044774569-95f09b64a772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80');">
+                <i class="bi bi-building"></i>
+                <h3>Productos de limpieza industrial</h3>
+              </div>
+              <div class="flip-card-back">
+                <h3>Productos de limpieza industrial</h3>
+                <p>Diseñados para entornos industriales exigentes, nuestros productos eliminan eficazmente grasa,
+                  suciedad y contaminantes difíciles. Son seguros para uso en ambientes comerciales y de producción.</p>
+                <a href="#" class="btn">Ver más</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+
+      <!-- Stats Section -->
+      <div class="stats-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-lg-6 mb-4">
+              <div class="stat-card animate-fadeIn">
+                <div class="stat-number" id="productsSold">0</div>
+                <div class="stat-text">Productos Vendidos</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6 mb-4">
+              <div class="stat-card animate-fadeIn delay-1">
+                <div class="stat-number" id="happyClients">0</div>
+                <div class="stat-text">Clientes Satisfechos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contacto">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <h4 class="footer-title">LimpiExpert</h4>
+          <p>Solucionamos tus necesidades de limpieza automotriz e industrial con productos de calidad.</p>
+          <div class="mt-3">
+            <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <h4 class="footer-title">Enlaces Rápidos</h4>
+          <a href="#" class="footer-link">Inicio</a>
+          <a href="#productos" class="footer-link">Productos</a>
+          <a href="#servicios" class="footer-link">Servicios</a>
+          <a href="#contacto" class="footer-link">Contacto</a>
+        </div>
+        <div class="col-md-4 mb-4">
+          <h4 class="footer-title">Contacto</h4>
+          <p><i class="bi bi-geo-alt me-2"></i>Av. Principal 123, Ciudad</p>
+          <p><i class="bi bi-telephone me-2"></i>(123) 456-7890</p>
+          <p><i class="bi bi-envelope me-2"></i>info@limpiexpert.com</p>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 LimpiExpert. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animate stats counters
+      animateCounter('productsSold', 0, 1250, 2000);
+      animateCounter('happyClients', 0, 850, 2000);
+
+      // Carousel functionality
+      const carouselTrack = document.getElementById('carouselTrack');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const indicators = document.querySelectorAll('.indicator');
+      let currentIndex = 0;
+      let carouselInterval;
+
+      // Set up indicator click events
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          currentIndex = index;
+          updateCarousel();
+        });
+      });
+
+      // Navigation buttons
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + 6) % 6;
+        updateCarousel();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % 6;
+        updateCarousel();
+      });
+
+      // Update carousel display
+      function updateCarousel() {
+        // Move carousel track
+        carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+          if (index === currentIndex) {
+            indicator.classList.add('active');
+          } else {
+            indicator.classList.remove('active');
+          }
+        });
+      }
+
+      // Auto slide functionality
+      function startAutoSlide() {
+        clearInterval(carouselInterval);
+        carouselInterval = setInterval(() => {
+          currentIndex = (currentIndex + 1) % 6;
+          updateCarousel();
+        }, 5000); // Change every 5 seconds
+      }
+
+      // Start auto slide
+      startAutoSlide();
+
+      // Pause auto slide on hover
+      const carouselWrapper = document.querySelector('.carousel-wrapper');
+      carouselWrapper.addEventListener('mouseenter', () => {
+        clearInterval(carouselInterval);
+      });
+
+      carouselWrapper.addEventListener('mouseleave', () => {
+        startAutoSlide();
+      });
+
+      // Counter animation function
+      function animateCounter(elementId, start, end, duration) {
+        const element = document.getElementById(elementId);
+        const range = end - start;
+        let increment = range / (duration / 16);
+        let current = start;
+
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= end) {
+            current = end;
+            clearInterval(timer);
+          }
+          element.textContent = Math.floor(current);
+        }, 16);
+      }
+    });
+  </script>
+</body>
+
+</html>
